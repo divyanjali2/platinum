@@ -1,53 +1,71 @@
-function generatePDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ format: "a5", orientation: "portrait" });
+function generatePDF(bookingNumber) {
+    return new Promise((resolve, reject) => {
+        fetch('assets/includes/debug_log.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                step: 'generatePDF_called',
+                bookingNumber: bookingNumber ?? null
+            })
+        });
 
-    const gold = [212, 175, 55];
-    const darkBlue = [10, 35, 80];
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ format: "a5", orientation: "portrait" });
 
-    const conf = {
-        pickup: document.getElementById('conf_pickup')?.textContent || '-',
-        dropoff: document.getElementById('conf_dropoff')?.textContent || '-',
-        pickupDate: document.getElementById('conf_pickup_date')?.textContent || '-',
-        dropoffDate: document.getElementById('conf_dropoff_date')?.textContent || '-',
-        pickupTime: document.getElementById('conf_pickup_time')?.textContent || '-',
-        dropoffTime: document.getElementById('conf_dropoff_time')?.textContent || '-',
-        carName: document.querySelector('.form-step[data-step="1"] .card-title')?.textContent || '-',
-        tripDays: document.getElementById('conf_days')?.textContent || '-',
-        totalPrice: document.getElementById('conf_total')?.textContent || '-',
-        name: document.getElementById('conf_name')?.textContent || '-',
-        email: document.getElementById('conf_email')?.textContent || '-',
-        phone: document.getElementById('conf_phone')?.textContent || '-',
-        flight: document.getElementById('conf_flight')?.textContent || '-',
-        passengers: document.getElementById('conf_passengers')?.textContent || '-',
-        luggages: document.getElementById('conf_luggages')?.textContent || '-',
-        mileage: document.getElementById('conf_mileage')?.textContent || '-',
-        driver: document.getElementById('conf_driver')?.textContent || '-',
-        license: document.getElementById('conf_license')?.textContent || '-',
-        other: document.getElementById('conf_other')?.textContent || '-',
-        addons: Array.from(document.querySelectorAll('#conf_addons li')).map(li => li.textContent)
-    };
+        const gold = [212, 175, 55];
+        const darkBlue = [10, 35, 80];
 
-    // --- Load Logo ---
-    const logo = new Image();
-    logo.src = 'http://localhost/platinum/assets/images/logo1.png'; 
+        const conf = {
+            pickup: document.getElementById('conf_pickup')?.textContent || '-',
+            dropoff: document.getElementById('conf_dropoff')?.textContent || '-',
+            pickupDate: document.getElementById('conf_pickup_date')?.textContent || '-',
+            dropoffDate: document.getElementById('conf_dropoff_date')?.textContent || '-',
+            pickupTime: document.getElementById('conf_pickup_time')?.textContent || '-',
+            dropoffTime: document.getElementById('conf_dropoff_time')?.textContent || '-',
+            carName: document.querySelector('.form-step[data-step="1"] .card-title')?.textContent || '-',
+            tripDays: document.getElementById('conf_days')?.textContent || '-',
+            totalPrice: document.getElementById('conf_total')?.textContent || '-',
+            name: document.getElementById('conf_name')?.textContent || '-',
+            email: document.getElementById('conf_email')?.textContent || '-',
+            phone: document.getElementById('conf_phone')?.textContent || '-',
+            flight: document.getElementById('conf_flight')?.textContent || '-',
+            passengers: document.getElementById('conf_passengers')?.textContent || '-',
+            luggages: document.getElementById('conf_luggages')?.textContent || '-',
+            mileage: document.getElementById('conf_mileage')?.textContent || '-',
+            driver: document.getElementById('conf_driver')?.textContent || '-',
+            license: document.getElementById('conf_license')?.textContent || '-',
+            other: document.getElementById('conf_other')?.textContent || '-'
+        };
 
-    logo.onload = function() {
-        finalizePDF(doc, conf, logo, gold, darkBlue);
-    };
+        const logo = new Image();
+        logo.src = 'assets/images/logo1.png'; 
 
-    logo.onerror = function(e) {
-        console.error("Logo failed to load:", e);
-        finalizePDF(doc, conf, null, gold, darkBlue); 
-    };
+        logo.onload = async function () {
+            try {
+                const result = await finalizePDF(doc, conf, logo, gold, darkBlue, bookingNumber);
+                resolve(result);
+            } catch (err) {
+                reject(err);
+            }
+        };
+
+        logo.onerror = async function () {
+            try {
+                const result = await finalizePDF(doc, conf, null, gold, darkBlue, bookingNumber);
+                resolve(result);
+            } catch (err) {
+                reject(err);
+            }
+        };
+    });
 }
 
-function finalizePDF(doc, conf, logo, gold, darkBlue) {
+async function finalizePDF(doc, conf, logo, gold, darkBlue, bookingNumber) {
     let y = 15;
 
-    // --- HEADER ---
+    // HEADER
     if (logo) {
-        const logoWidth = 40; 
+        const logoWidth = 40;
         const logoHeight = 15;
         const centerX = 74 - logoWidth / 2;
         doc.addImage(logo, 'PNG', centerX, 5, logoWidth, logoHeight);
@@ -66,7 +84,7 @@ function finalizePDF(doc, conf, logo, gold, darkBlue) {
     doc.text(contactLines, 74, y, { align: "center" });
     y += contactLines.length * 4;
 
-    y += 5; 
+    y += 5;
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
@@ -74,13 +92,13 @@ function finalizePDF(doc, conf, logo, gold, darkBlue) {
     doc.text("INVOICE", 74, y, { align: "center" });
     y += 5;
 
-    // --- HEADER LINE ---
+    // HEADER LINE
     doc.setDrawColor(gold[0], gold[1], gold[2]);
     doc.setLineWidth(0.5);
     doc.line(10, y, 140, y);
     y += 10;
 
-    // --- TOTAL PRICE ---
+    // TOTAL PRICE
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(13);
     doc.setTextColor(darkBlue[0], darkBlue[1], darkBlue[2]);
@@ -97,9 +115,9 @@ function finalizePDF(doc, conf, logo, gold, darkBlue) {
     doc.line(25, y, 125, y);
     y += 8;
 
-    // --- TRIP DETAILS BOX ---
+    // TRIP DETAILS BOX
     const tripBoxHeight = 44;
-    doc.setFillColor(255, 255, 255); 
+    doc.setFillColor(255, 255, 255);
     doc.setDrawColor(darkBlue[0], darkBlue[1], darkBlue[2]);
     doc.roundedRect(12, y, 116, tripBoxHeight, 3, 3, "FD");
 
@@ -138,10 +156,9 @@ function finalizePDF(doc, conf, logo, gold, darkBlue) {
 
     y += tripBoxHeight + 8;
 
-    // --- PASSENGER DETAILS ---
+    // PASSENGER DETAILS BOX
     const passengerBoxHeight = 48;
     doc.setFillColor(255, 255, 255);
-    doc.rect(12, y, 116, passengerBoxHeight, "F");
     doc.roundedRect(12, y, 116, passengerBoxHeight, 3, 3, "FD");
 
     doc.setFont('helvetica', 'bold');
@@ -156,65 +173,37 @@ function finalizePDF(doc, conf, logo, gold, darkBlue) {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(0, 0, 0);
-    const passengerSpacing = 1; 
 
     let nameLines = doc.splitTextToSize(`Name: ${conf.name}`, 55);
     doc.text(nameLines, leftPX, py);
     let phoneLines = doc.splitTextToSize(`Phone: ${conf.phone}`, 55);
     doc.text(phoneLines, rightPX, py);
-    py += Math.max(nameLines.length, phoneLines.length) * 4 + passengerSpacing;
+    py += Math.max(nameLines.length, phoneLines.length) * 4 + 1;
 
     let emailLines = doc.splitTextToSize(`Email: ${conf.email}`, 55);
     doc.text(emailLines, leftPX, py);
     let flightLines = doc.splitTextToSize(`Flight Number: ${conf.flight}`, 55);
     doc.text(flightLines, rightPX, py);
-    py += Math.max(emailLines.length, flightLines.length) * 4 + passengerSpacing;
+    py += Math.max(emailLines.length, flightLines.length) * 4 + 1;
 
     let passengerLines = doc.splitTextToSize(`Passengers: ${conf.passengers}`, 55);
     doc.text(passengerLines, leftPX, py);
-
     let luggageLines = doc.splitTextToSize(`Luggages: ${conf.luggages}`, 55);
     doc.text(luggageLines, rightPX, py);
-
-    py += Math.max(passengerLines.length, luggageLines.length) * 4 + passengerSpacing;
+    py += Math.max(passengerLines.length, luggageLines.length) * 4 + 1;
 
     let mileageLines = doc.splitTextToSize(`Mileage: ${conf.mileage}`, 55);
     doc.text(mileageLines, rightPX, py);
-    
-    py += Math.max(mileageLines.length) * 4 + passengerSpacing;
+    py += mileageLines.length * 4 + 1;
 
     let driverLines = doc.splitTextToSize(`Driver: ${conf.driver}`, 55);
     doc.text(driverLines, leftPX, py);
     let licenseLines = doc.splitTextToSize(`License: ${conf.license}`, 55);
     doc.text(licenseLines, rightPX, py);
-    py += Math.max(driverLines.length, licenseLines.length) * 4 + passengerSpacing;
 
-    y += passengerBoxHeight + 8;
+    y += passengerBoxHeight + 14;
 
-    // --- ADD-ONS ---
-    // doc.setFont('helvetica', 'bold');
-    // doc.setFontSize(11);
-    // doc.setTextColor(darkBlue[0], darkBlue[1], darkBlue[2]);
-    // doc.text("Extras / Add-ons", 15, y);
-
-    // y += 5;
-    // doc.setFont('helvetica', 'normal');
-    // doc.setFontSize(9);
-    // doc.setTextColor(0, 0, 0);
-    // const addonSpacing = 4; 
-    // if (conf.addons.length > 0) {
-    //     conf.addons.forEach(addon => {
-    //         let addonLines = doc.splitTextToSize(`- ${addon}`, 100);
-    //         doc.text(addonLines, 18, y);
-    //         y += addonLines.length * 4 + addonSpacing;
-    //     });
-    // } else {
-    //     doc.text("- None", 18, y);
-    //     y += 4 + addonSpacing;
-    // }
-
-    // --- FOOTER ---
-    y += 6;
+    // FOOTER
     doc.setDrawColor(gold[0], gold[1], gold[2]);
     doc.line(10, y, 140, y);
     y += 7;
@@ -223,24 +212,44 @@ function finalizePDF(doc, conf, logo, gold, darkBlue) {
     doc.setTextColor(darkBlue[0], darkBlue[1], darkBlue[2]);
     doc.text("Thank you for choosing Platinum Drive!", 74, y, { align: "center" });
 
-    // --- SAVE ---
-    doc.save("Booking_" + conf.name.replace(/\s+/g, "_") + ".pdf");
+    const safeName = (conf.name || 'Booking').replace(/[^a-zA-Z0-9_-]/g, '_');
+    doc.save(`Booking_${safeName}.pdf`);
 
-    // --- Convert PDF to Blob ---
-    const pdfBlob = doc.output('blob', { type: 'application/pdf' });
+    // CREATE PDF BLOB
+    const pdfBlob = doc.output('blob');
 
-    // --- Prepare FormData ---
     const formData = new FormData();
-    formData.append('invoice', pdfBlob, `invoice_${conf.name.replace(/\s+/g, "_")}.pdf`);
-    formData.append('booking_number', document.getElementById('conf_booking_number')?.textContent || '');
+    formData.append('invoice', pdfBlob, 'invoice_temp.pdf');
+    formData.append('booking_number', bookingNumber ?? '');
 
-    // --- Upload to server ---
-    fetch('assets/includes/upload_invoice.php', {
+    await fetch('assets/includes/debug_log.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            step: 'before_upload_invoice',
+            bookingNumber: bookingNumber ?? null
+        })
+    });
+
+    const response = await fetch('assets/includes/upload_invoice.php', {
         method: 'POST',
         body: formData
-    })
-    .then(res => res.text())
-    .then(data => console.log('✅ Invoice uploaded:', data))
-    .catch(err => console.error('❌ Upload error:', err));
+    });
 
+    const data = await response.json();
+
+    await fetch('assets/includes/debug_log.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            step: 'upload_invoice_response',
+            response: data
+        })
+    });
+
+    if (data.status !== 'success') {
+        throw new Error(data.message || 'Invoice upload failed');
+    }
+
+    return data;
 }

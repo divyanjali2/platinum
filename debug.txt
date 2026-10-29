@@ -1,0 +1,32 @@
+
+==== connection.php ====
+REQUEST METHOD: POST
+POST passenger_name: Navodya Divyanjali
+POST total_price: 256
+No upload for passport_image
+No upload for passport_image2
+No upload for idp_image
+Generated booking number: PD-20260421-002
+Session last_booking_number set: PD-20260421-002
+Response: {"status":"success","message":"Booking submitted successfully","booking_number":"PD-20260421-002","customer_name":"Navodya Divyanjali"}
+
+==== connection.php ====
+REQUEST METHOD: POST
+POST passenger_name: Navodya Divyanjali
+POST total_price: 204
+No upload for passport_image
+No upload for passport_image2
+No upload for idp_image
+Generated booking number: PD-20260421-003
+Session last_booking_number set: PD-20260421-003
+Response: {"status":"success","message":"Booking submitted successfully","booking_number":"PD-20260421-003","customer_name":"Navodya Divyanjali"}
+
+==== upload_invoice.php ====
+Raw booking_number from POST: 
+Fallback booking_number from SESSION: PD-20260421-003
+Target dir: C:\xampp\htdocs\platinum\uploads\invoices\
+Saving file as: C:\xampp\htdocs\platinum\uploads\invoices\invoice_PD-20260421-003.pdf
+File moved successfully
+DB updated rows: 1
+Saved invoice_path: uploads/invoices/invoice_PD-20260421-003.pdf
+Session last_booking_number cleared

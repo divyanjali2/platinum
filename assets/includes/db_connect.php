@@ -1,6 +1,6 @@
 <?php
     $host = 'localhost';
-    $dbname = 'platinu5_platinumdrive';
+    $dbname = 'platinum-drive';
     $username = 'root';
     $password = '';
 

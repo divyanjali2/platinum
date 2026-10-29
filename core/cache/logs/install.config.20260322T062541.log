@@ -1,0 +1,2 @@
+[2026-03-22 06:25:41] (ERROR @ C:\xampp\htdocs\platinum\core\cache\setup\smarty\f94e958eb3bde6ebbe59a621ae7ed0def55bd926_0.file.complete.tpl.php : 30) PHP warning: Undefined array key "errors"
+[2026-03-22 06:25:41] (ERROR @ C:\xampp\htdocs\platinum\core\cache\setup\smarty\f94e958eb3bde6ebbe59a621ae7ed0def55bd926_0.file.complete.tpl.php : 30) PHP warning: Attempt to read property "value" on null

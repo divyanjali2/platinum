@@ -1,0 +1,8 @@
+[2026-03-22 06:23:36] (ERROR @ C:\xampp\htdocs\platinum\core\vendor\xpdo\xpdo\src\xPDO\Om\xPDOObject.php : 227) Error 42S02 executing statement: 
+Array
+(
+    [0] => 42S02
+    [1] => 1146
+    [2] => Table 'platinu5_platinumdrive.modx_system_settings' doesn't exist
+)
+

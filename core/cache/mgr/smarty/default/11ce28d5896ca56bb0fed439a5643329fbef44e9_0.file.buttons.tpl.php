@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.5, created on 2025-11-28 09:58:22
+/* Smarty version 4.5.5, created on 2026-03-22 06:26:02
   from 'C:\xampp\htdocs\platinum\manager\templates\default\dashboard\buttons.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.5',
-  'unifunc' => 'content_6929642e710335_21747854',
+  'unifunc' => 'content_69bf7d6accb963_44185600',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6929642e710335_21747854 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69bf7d6accb963_44185600 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class="dashboard-block headless <?php echo $_smarty_tpl->tpl_vars['size']->value;?>
 " id="dashboard-block-<?php echo $_smarty_tpl->tpl_vars['id']->value;?>
 " data-id="<?php echo $_smarty_tpl->tpl_vars['id']->value;?>

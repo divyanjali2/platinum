@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.5, created on 2025-11-28 09:57:59
+/* Smarty version 4.5.5, created on 2026-03-22 06:25:48
   from 'C:\xampp\htdocs\platinum\manager\templates\default\security\login.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.5',
-  'unifunc' => 'content_69296417d17da9_01429884',
+  'unifunc' => 'content_69bf7d5c0d4d15_46075305',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69296417d17da9_01429884 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69bf7d5c0d4d15_46075305 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\platinum\\core\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.capitalize.php','function'=>'smarty_modifier_capitalize',),));
 ?>
 <!doctype html>

@@ -6,21 +6,21 @@ $database_type = 'mysql';
 $database_server = 'localhost';
 $database_connection_charset = 'utf8mb4';
 $table_prefix = 'modx_';
-$dbase = 'platinu5_platinumdrive';
+$dbase = 'platinum-drive';
 $database_user = 'root';
 $database_password = '';
-$database_dsn = 'mysql:host=localhost;dbname=platinu5_platinumdrive;charset=utf8mb4';
+$database_dsn = 'mysql:host=localhost;dbname=platinum-drive;charset=utf8mb4';
 $config_options = array (
 );
 $driver_options = array (
 );
 
-$lastInstallTime = 1756709094;
+$lastInstallTime = 1774157072;
 
-$site_id = 'modx68b540e6de8ad9.76783708';
-$site_sessionname = 'SN68b5402a482ea';
+$site_id = 'modx69bf7d1023d077.20022629';
+$site_sessionname = 'SN69bf7ce403cec';
 $https_port = '443';
-$uuid = 'ebb0e5d7-9426-4e1a-99dc-e2767747be30';
+$uuid = '448aba85-0b20-477a-b73f-079bde50e372';
 
 if (!defined('MODX_ASSETS_PATH')) {
     $modx_assets_path= 'C:/xampp/htdocs/platinum/assets/';
@@ -46,7 +46,7 @@ if (!defined('MODX_CORE_PATH')) {
 }
 if (!defined('MODX_MANAGER_PATH')) {
     $modx_manager_path= 'C:/xampp/htdocs/platinum/manager/';
-    $modx_manager_url= '';
+    $modx_manager_url= '/platinum/manager/';
     define('MODX_MANAGER_PATH', $modx_manager_path);
     define('MODX_MANAGER_URL', $modx_manager_url);
 }

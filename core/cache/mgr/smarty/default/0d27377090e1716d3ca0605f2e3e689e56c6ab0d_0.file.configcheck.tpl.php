@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.5, created on 2025-11-28 09:58:23
+/* Smarty version 4.5.5, created on 2026-03-22 06:26:03
   from 'C:\xampp\htdocs\platinum\manager\templates\default\dashboard\configcheck.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.5',
-  'unifunc' => 'content_6929642f13d006_61595233',
+  'unifunc' => 'content_69bf7d6b9654a7_80961041',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6929642f13d006_61595233 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69bf7d6b9654a7_80961041 (Smarty_Internal_Template $_smarty_tpl) {
 if (count($_smarty_tpl->tpl_vars['warnings']->value)) {?>
     <h4><?php echo $_smarty_tpl->tpl_vars['_lang']->value['configcheck_notok'];?>
 </h4>

@@ -124,18 +124,37 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php if (!empty($b['invoice_path'])): ?>
-                                                <a href="<?= htmlspecialchars($b['invoice_path']) ?>" target="_blank" class="btn btn-sm btn-primary">
+                                            <?php
+                                                $invoiceLink = '';
+
+                                                if (!empty($b['invoice_path'])) {
+                                                    $rawPath = trim($b['invoice_path']);
+
+                                                    if (filter_var($rawPath, FILTER_VALIDATE_URL)) {
+                                                        $invoiceLink = $rawPath;
+                                                    } else {
+                                                        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+                                                        $host = $_SERVER['HTTP_HOST'];
+
+                                                        // Detect project folder dynamically, e.g. /platinum
+                                                        $basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+
+                                                        $invoiceLink = $protocol . $host . $basePath . '/' . ltrim($rawPath, '/');
+                                                    }
+                                                }
+                                            ?>
+
+                                            <?php if (!empty($invoiceLink)): ?>
+                                                <a href="<?= htmlspecialchars($invoiceLink) ?>" target="_blank" class="btn btn-sm btn-primary">
                                                     View Invoice
                                                 </a>
                                             <?php else: ?>
                                                 <span class="text-muted">Not generated</span>
                                             <?php endif; ?>
 
-                                            <!-- DELETE button for admin only -->
                                             <?php if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
                                                 <button class="btn btn-sm btn-danger deleteBookingBtn"
-                                                        data-id="<?= $b['id'] ?>">
+                                                        data-id="<?= (int)$b['id'] ?>">
                                                     Delete
                                                 </button>
                                             <?php endif; ?>
